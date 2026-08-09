@@ -44,6 +44,9 @@ export default {
     ],
   ],
   extra: {
+    eas: {
+      projectId: '2c90ae77-f936-43fd-aefa-e41cca4d81fe',
+    },
     SUPABASE_URL: process.env.SUPABASE_URL || 'https://placeholder.supabase.co',
     SUPABASE_ANON_KEY: process.env.SUPABASE_ANON_KEY || 'placeholder_anon_key',
     GEMINI_API_KEY: process.env.GEMINI_API_KEY || '',
