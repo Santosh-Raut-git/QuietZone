@@ -39,6 +39,8 @@ export default function AuthScreen() {
     setLoading(true);
     let error;
 
+    let signUpSession = null;
+
     if (mode === 'signIn') {
       const { error: signInError } = await supabase.auth.signInWithPassword({
         email,
@@ -46,11 +48,12 @@ export default function AuthScreen() {
       });
       error = signInError;
     } else {
-      const { error: signUpError } = await supabase.auth.signUp({
+      const { data, error: signUpError } = await supabase.auth.signUp({
         email,
         password,
       });
       error = signUpError;
+      signUpSession = data?.session;
     }
 
     setLoading(false);
@@ -63,18 +66,23 @@ export default function AuthScreen() {
         if (router.canGoBack()) {
           router.back();
         } else {
-          router.replace('/');
+          router.replace('/(tabs)/map');
         }
       };
 
       // On successful auth, close the modal
-      if (mode === 'signIn') {
+      if (mode === 'signIn' || signUpSession) {
         safelyGoBack();
       } else {
         // If email confirmation is required, Supabase will succeed but session is null until verified.
-        Alert.alert('Success', 'Account created! Please check your email for a confirmation link if required, otherwise you are signed in.', [
-          { text: 'OK', onPress: safelyGoBack }
-        ]);
+        if (Platform.OS === 'web') {
+          window.alert('Account created! Please check your email for a confirmation link.');
+          safelyGoBack();
+        } else {
+          Alert.alert('Success', 'Account created! Please check your email for a confirmation link.', [
+            { text: 'OK', onPress: safelyGoBack }
+          ]);
+        }
       }
     }
   };
@@ -100,7 +108,7 @@ export default function AuthScreen() {
               if (router.canGoBack()) {
                 router.back();
               } else {
-                router.replace('/');
+                router.replace('/(tabs)/map');
               }
             }} 
           />

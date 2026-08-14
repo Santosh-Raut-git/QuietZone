@@ -1,8 +1,13 @@
 /**
- * App entry — redirects to the Map tab (home screen)
+ * App entry — redirects to the Map tab or Auth if not signed in
  */
 import { Redirect } from 'expo-router';
+import { useAuth } from '../src/hooks/useAuth';
 
 export default function Index() {
-  return <Redirect href="/(tabs)/map" />;
+  const { session, isLoading } = useAuth();
+
+  if (isLoading) return null;
+
+  return <Redirect href={session ? "/(tabs)/map" : "/auth"} />;
 }
