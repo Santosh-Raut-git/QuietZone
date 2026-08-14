@@ -11,6 +11,7 @@ import { supabase } from '../src/lib/supabase';
 import { LightColors, Typography, Spacing, BorderRadius, Shadows } from '../src/design-system/tokens';
 import { PrimaryButton } from '../src/components/PrimaryButton';
 import { SecondaryButton } from '../src/components/SecondaryButton';
+import { PremiumTextInput } from '../src/components/PremiumTextInput';
 import { Ionicons } from '@expo/vector-icons';
 
 export default function AuthScreen() {
@@ -21,14 +22,17 @@ export default function AuthScreen() {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [mode, setMode] = useState('signIn'); // 'signIn' or 'signUp'
+  const [authError, setAuthError] = useState('');
 
   const toggleMode = () => {
     setMode(prev => prev === 'signIn' ? 'signUp' : 'signIn');
+    setAuthError('');
   };
 
   const handleAuth = async () => {
+    setAuthError('');
     if (!email || !password) {
-      Alert.alert('Error', 'Please enter both email and password.');
+      setAuthError('Please enter both email and password.');
       return;
     }
 
@@ -52,7 +56,7 @@ export default function AuthScreen() {
     setLoading(false);
 
     if (error) {
-      Alert.alert('Authentication Error', error.message);
+      setAuthError(error.message);
     } else {
       // Helper to safely go back
       const safelyGoBack = () => {
@@ -113,10 +117,8 @@ export default function AuthScreen() {
 
         <View style={styles.form}>
           <Text style={styles.label}>Email Address</Text>
-          <TextInput
-            style={styles.input}
+          <PremiumTextInput
             placeholder="you@example.com"
-            placeholderTextColor={LightColors.textSecondary}
             value={email}
             onChangeText={setEmail}
             autoCapitalize="none"
@@ -125,14 +127,16 @@ export default function AuthScreen() {
           />
 
           <Text style={styles.label}>Password</Text>
-          <TextInput
-            style={styles.input}
+          <PremiumTextInput
             placeholder="••••••••"
-            placeholderTextColor={LightColors.textSecondary}
             value={password}
             onChangeText={setPassword}
             secureTextEntry
           />
+
+          {authError ? (
+            <Text style={styles.errorText}>{authError}</Text>
+          ) : null}
 
           <PrimaryButton
             label={mode === 'signIn' ? 'Sign In' : 'Sign Up'}
@@ -185,16 +189,11 @@ const styles = StyleSheet.create({
     marginBottom: Spacing.xs,
     fontWeight: '600',
   },
-  input: {
-    ...Typography.body,
-    color: LightColors.textPrimary,
-    borderWidth: 1,
-    borderColor: LightColors.border,
-    borderRadius: BorderRadius.base,
-    paddingHorizontal: Spacing.base,
-    paddingVertical: Spacing.sm,
-    marginBottom: Spacing.lg,
-    backgroundColor: LightColors.background,
+  errorText: {
+    ...Typography.bodySmall,
+    color: '#EF4444', // Loud semantic red
+    marginBottom: Spacing.base,
+    textAlign: 'center',
   },
   actionButton: {
     marginBottom: Spacing.base,
