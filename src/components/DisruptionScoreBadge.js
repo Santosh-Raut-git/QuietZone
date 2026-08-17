@@ -8,12 +8,7 @@
  */
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import {
-  Typography,
-  Spacing,
-  BorderRadius,
-  getDisruptionLevel,
-} from '../design-system/tokens';
+import { Typography, Spacing, BorderRadius, getDisruptionLevel } from '../design-system/tokens';
 
 export function DisruptionScoreBadge({ score, size = 'default', style }) {
   const { color, label } = getDisruptionLevel(score);
@@ -21,67 +16,23 @@ export function DisruptionScoreBadge({ score, size = 'default', style }) {
 
   return (
     <View
-      style={[
-        styles.badge,
-        isSmall && styles.badgeSmall,
-        { backgroundColor: color + '1A' }, // 10% opacity background
-        style,
-      ]}
+      style={[styles.badge, isSmall && styles.badgeSmall, { backgroundColor: color + '1A' }, style]}
       accessibilityLabel={`Disruption score ${score}, ${label}`}
       accessibilityRole="text"
     >
       <View style={[styles.dot, { backgroundColor: color }]} />
-      <Text
-        style={[
-          isSmall ? styles.labelSmall : styles.label,
-          { color },
-        ]}
-      >
-        {score}
-      </Text>
-      <Text
-        style={[
-          isSmall ? styles.textSmall : styles.text,
-          { color },
-        ]}
-      >
-        {label}
-      </Text>
+      <Text style={[isSmall ? styles.labelSmall : styles.label, { color }]}>{score}</Text>
+      <Text style={[isSmall ? styles.textSmall : styles.text, { color }]}>{label}</Text>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  badge: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: Spacing.md,
-    paddingVertical: Spacing.sm,
-    borderRadius: BorderRadius.full,
-  },
-  badgeSmall: {
-    paddingHorizontal: Spacing.sm,
-    paddingVertical: Spacing.xs,
-  },
-  dot: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-    marginRight: Spacing.xs,
-  },
-  label: {
-    ...Typography.buttonLabel,
-    marginRight: Spacing.xs,
-  },
-  labelSmall: {
-    ...Typography.caption,
-    fontFamily: Typography.buttonLabel.fontFamily,
-    marginRight: Spacing.xs,
-  },
-  text: {
-    ...Typography.bodySmall,
-  },
-  textSmall: {
-    ...Typography.caption,
-  },
+  badge: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: Spacing.md, paddingVertical: Spacing.sm, borderRadius: BorderRadius.full },
+  badgeSmall: { paddingHorizontal: Spacing.sm, paddingVertical: Spacing.xs },
+  dot: { width: 8, height: 8, borderRadius: 4, marginRight: Spacing.xs },
+  label: { ...Typography.buttonLabel, marginRight: Spacing.xs },
+  labelSmall: { ...Typography.caption, fontFamily: Typography.buttonLabel.fontFamily, marginRight: Spacing.xs },
+  text: { ...Typography.bodySmall },
+  textSmall: { ...Typography.caption },
 });

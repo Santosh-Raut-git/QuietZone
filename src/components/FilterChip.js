@@ -1,41 +1,17 @@
-/**
- * FilterChip — Pill-shaped selectable chip for category filters
- */
 import React from 'react';
 import { Pressable, Text, StyleSheet } from 'react-native';
-import {
-  LightColors,
-  Typography,
-  Spacing,
-  BorderRadius,
-} from '../design-system/tokens';
+import { LightColors, Typography, Spacing, BorderRadius } from '../design-system/tokens';
 
-export function FilterChip({
-  label,
-  selected = false,
-  onPress,
-  style,
-}) {
+export function FilterChip({ label, selected = false, onPress, style }) {
   return (
     <Pressable
       onPress={onPress}
       accessibilityRole="button"
       accessibilityLabel={`${label} filter${selected ? ', selected' : ''}`}
       accessibilityState={{ selected }}
-      style={[
-        styles.chip,
-        selected && styles.chipSelected,
-        style,
-      ]}
+      style={[styles.chip, selected && styles.chipSelected, style]}
     >
-      <Text
-        style={[
-          styles.label,
-          selected && styles.labelSelected,
-        ]}
-      >
-        {label}
-      </Text>
+      <Text style={[styles.label, selected && styles.labelSelected]}>{label}</Text>
     </Pressable>
   );
 }
@@ -55,12 +31,6 @@ const styles = StyleSheet.create({
     backgroundColor: LightColors.brandPrimary,
     borderColor: LightColors.brandPrimary,
   },
-  label: {
-    ...Typography.bodySmall,
-    color: LightColors.textSecondary,
-  },
-  labelSelected: {
-    color: '#FFFFFF',
-    fontFamily: Typography.buttonLabel.fontFamily,
-  },
+  label: { ...Typography.bodySmall, color: LightColors.textSecondary },
+  labelSelected: { color: '#FFFFFF', fontFamily: Typography.buttonLabel.fontFamily },
 });

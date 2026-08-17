@@ -1,17 +1,7 @@
-/**
- * MapPin — Color-coded pin for map markers
- * 
- * Disruption-scored pins use the quiet/moderate/loud gradient.
- * Verified pins use gold with a distinct shield shape.
- */
 import React from 'react';
 import { View, Text, StyleSheet, Platform } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import {
-  DisruptionColors,
-  Typography,
-  getDisruptionLevel,
-} from '../design-system/tokens';
+import { DisruptionColors, Typography, getDisruptionLevel } from '../design-system/tokens';
 
 const PIN_SIZE = 36;
 const PIN_SIZE_SMALL = 28;
@@ -60,80 +50,22 @@ export function MapPin({ score, verified = false, size = 'default', isPredictive
 
   return (
     <View collapsable={false} style={[styles.container, isPredictive && { opacity: 0.75 }, style]} accessibilityLabel={`Noise level: ${label}, score ${score}`}>
-      <View style={[styles.regularPinOuter, {
-        width: pinSize + 4,
-        height: pinSize + 4,
-        borderRadius: (pinSize + 4) / 2,
-      }]}>
-        <View
-          style={{
-            width: pinSize,
-            height: pinSize,
-            borderRadius: pinSize / 2,
-            backgroundColor: color,
-            alignItems: 'center',
-            justifyContent: 'center',
-            overflow: 'hidden'
-          }}
-        >
+      <View style={[styles.regularPinOuter, { width: pinSize + 4, height: pinSize + 4, borderRadius: (pinSize + 4) / 2 }]}>
+        <View style={{ width: pinSize, height: pinSize, borderRadius: pinSize / 2, backgroundColor: color, alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
           <Text style={[styles.score, isSmall && styles.scoreSmall]}>{score}</Text>
         </View>
       </View>
-      {/* Pin tail */}
       <View style={[styles.tail, { borderTopColor: '#FFFFFF' }]} />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    alignItems: 'center',
-  },
-  regularPinOuter: {
-    backgroundColor: '#FFFFFF',
-    alignItems: 'center',
-    justifyContent: 'center',
-    shadowColor: IS_ANDROID ? 'transparent' : '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: IS_ANDROID ? 0 : 0.2,
-    shadowRadius: IS_ANDROID ? 0 : 4,
-    elevation: IS_ANDROID ? 0 : 4,
-    overflow: 'hidden',
-  },
-  score: {
-    ...Typography.caption,
-    fontFamily: Typography.buttonLabel.fontFamily,
-    color: '#FFFFFF',
-    fontSize: 13,
-  },
-  scoreSmall: {
-    fontSize: 10,
-  },
-  tail: {
-    width: 0,
-    height: 0,
-    borderLeftWidth: 6,
-    borderRightWidth: 6,
-    borderTopWidth: 8,
-    borderLeftColor: 'transparent',
-    borderRightColor: 'transparent',
-    marginTop: -2,
-  },
-  verifiedPinOuter: {
-    backgroundColor: '#FFFFFF',
-    alignItems: 'center',
-    justifyContent: 'center',
-    shadowColor: IS_ANDROID ? 'transparent' : '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: IS_ANDROID ? 0 : 0.2,
-    shadowRadius: IS_ANDROID ? 0 : 4,
-    elevation: IS_ANDROID ? 0 : 4,
-    overflow: 'hidden',
-  },
-  verifiedPinInner: {
-    backgroundColor: DisruptionColors.verified,
-    alignItems: 'center',
-    justifyContent: 'center',
-    overflow: 'hidden',
-  },
+  container: { alignItems: 'center' },
+  regularPinOuter: { backgroundColor: '#FFFFFF', alignItems: 'center', justifyContent: 'center', shadowColor: IS_ANDROID ? 'transparent' : '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: IS_ANDROID ? 0 : 0.2, shadowRadius: IS_ANDROID ? 0 : 4, elevation: IS_ANDROID ? 0 : 4, overflow: 'hidden' },
+  score: { ...Typography.caption, fontFamily: Typography.buttonLabel.fontFamily, color: '#FFFFFF', fontSize: 13 },
+  scoreSmall: { fontSize: 10 },
+  tail: { width: 0, height: 0, borderLeftWidth: 6, borderRightWidth: 6, borderTopWidth: 8, borderLeftColor: 'transparent', borderRightColor: 'transparent', marginTop: -2 },
+  verifiedPinOuter: { backgroundColor: '#FFFFFF', alignItems: 'center', justifyContent: 'center', shadowColor: IS_ANDROID ? 'transparent' : '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: IS_ANDROID ? 0 : 0.2, shadowRadius: IS_ANDROID ? 0 : 4, elevation: IS_ANDROID ? 0 : 4, overflow: 'hidden' },
+  verifiedPinInner: { backgroundColor: DisruptionColors.verified, alignItems: 'center', justifyContent: 'center', overflow: 'hidden' },
 });
