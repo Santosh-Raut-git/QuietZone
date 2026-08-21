@@ -13,6 +13,9 @@
     },
     "production": {
       "autoIncrement": true,
+      "env": {
+        "ANDROID_HOME": "/home/santosh/Android/Sdk"
+      },
       "android": {
         "buildType": "apk"
       }
